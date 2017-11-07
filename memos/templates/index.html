@@ -35,7 +35,11 @@
     </ul>
   {% endif %}
 {% endwith %}
-
+<label for="create">Create memo: </label>
+<form id="create" name="create" method="GET" action="/create">
+  <label for="try">Click here to create memo: </label>
+  <input type="submit" name="try" id="try"/>
+</form>
 <h1>Memos</h1>
 
 {% if g.memos %}
@@ -48,15 +52,38 @@
   <div class="col-md-10">
     {{ memo.text }}
   </div>
+  <!--<div class="delbutton">
+    <button id="delete_button">
+      <input value="{{g.token}}" type="hidden" name="submit" id="submit"></input>
+    </button>
+  </div>  delbutton -->
+  <div class="delete_button">
+  <form method="POST" action="/_delete" id="delete" name="delete">
+    <input type="hidden" value="{{memo.token}}" name="hiddenToken"/>
+    <label for="submit">Click to delete:</label>
+    <input type="submit" name="submit" id="submit"/>
+  </form>
+  </div><!-- deletebutton -->
   </div> <!-- row -->
   </div> <!-- memo -->
   {% endfor %}
 {% else %}
-  <p>No memos for you. </p>  
+  <p>No memos for you. </p>
 {% endif %}
 
- 
+
 
 </div> <!-- container -->
+<script>
+//script for putting in new memos and deleting old memos
+    var SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    var JSON_URL = SCRIPT_ROOT + "/_handleJSON";
+    /*$("#delete_button").click(function(){
+      var token = $("#submit").val();
+      $.getJSON(JSON_URL, {token: token});
+    });*/
+    //need the variables to transfer back to flask
+
+</script>
 </body>
 </html>
